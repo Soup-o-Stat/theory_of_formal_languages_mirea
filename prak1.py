@@ -1,4 +1,4 @@
-#Created by Soup-o-Stat
+#created by Soup-o-Stat
 
 white_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
               '*', "+", "-", "/", "(", ")"]
@@ -7,11 +7,20 @@ operators = ['*', "+", "-", "/"]
 def to_the_list(data):
     input_data = list(data)
     input_data = [item for item in input_data if item.strip()]
-    for i in range(len(input_data) - 1, -1, -1):
-        if input_data[i] not in white_list:
-            input_data.pop(i)
-    if ("(" in input_data and ")" in input_data) or ("(" not in input_data and ")" not in input_data):
-        poliz_result = poliz(input_data)
+    new_input_data = []
+    number_sequence = ''
+    for token in input_data:
+        if token.isdigit():
+            number_sequence += token
+        elif token in white_list:
+            if number_sequence:
+                new_input_data.append(number_sequence)
+                number_sequence = ''
+            new_input_data.append(token)
+    if number_sequence:
+        new_input_data.append(number_sequence)
+    if len(new_input_data) > 0:
+        poliz_result = poliz(new_input_data)
         find_answer(poliz_result)
     else:
         print("Error")
